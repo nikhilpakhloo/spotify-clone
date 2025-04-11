@@ -54,6 +54,7 @@ export default function SignUpScreen() {
 
   return (
     <SafeAreaView className="flex-1 px-6 justify-center bg-white dark:bg-black">
+ 
       {pendingVerification ? (
         <View className="gap-5">
           <ThemedText type="title" className="text-center ">Verify your email</ThemedText>
@@ -73,8 +74,10 @@ export default function SignUpScreen() {
           />
         </View>
       ) : (
+        <>
         <View className="w-full gap-5">
-          <ThemedText type="title" className="text-center">Sign up</ThemedText>
+          <ThemedText type="title" className="text-center">Create account</ThemedText>
+  
 
           <ThemedTextInput
             autoCapitalize="none"
@@ -96,14 +99,16 @@ export default function SignUpScreen() {
             className="bg-green-600 rounded-xl py-4"
             textClassName="text-white text-lg font-bold text-center"
           />
+            </View>
 
-          <View className="flex-row mt-6">
+          <View className="flex-row mt-6 justify-center ">
             <Text className="text-gray-600 dark:text-gray-300 mr-2">Already have an account?</Text>
-            <Link href="/login">
+            <Link href="/login" replace>
               <Text className="text-green-600 font-semibold">Log in</Text>
             </Link>
           </View>
-        </View>
+          </>
+      
       )}
     </SafeAreaView>
   );

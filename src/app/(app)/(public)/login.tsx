@@ -85,7 +85,7 @@ export default function SignInScreen() {
 
       <View className="flex-row mt-6">
         <Text className="text-gray-600 dark:text-gray-300 mr-2">Don't have an account?</Text>
-        <Link href="/register">
+        <Link href="/register" replace>
           <Text className="text-green-600 font-semibold">Sign up</Text>
         </Link>
       </View>
