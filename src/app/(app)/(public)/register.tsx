@@ -1,111 +1,110 @@
-import * as React from 'react'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { useSignUp } from '@clerk/clerk-expo'
-import { Link, useRouter } from 'expo-router'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { useSignUp } from '@clerk/clerk-expo';
+import { Link, useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { ThemedText } from '@/src/components/ThemedText';
+import ThemedButton from '@/src/components/ThemedButton';
+import { ThemedTextInput } from '@/src/components/ThemedInputs';
 
 export default function SignUpScreen() {
-  const { isLoaded, signUp, setActive } = useSignUp()
-  const router = useRouter()
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const router = useRouter();
 
-  const [emailAddress, setEmailAddress] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [pendingVerification, setPendingVerification] = React.useState(false)
-  const [code, setCode] = React.useState('')
+  const [loading, setLoading] = React.useState(false);
+  const [emailAddress, setEmailAddress] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [pendingVerification, setPendingVerification] = React.useState(false);
+  const [code, setCode] = React.useState('');
 
-  // Handle submission of sign-up form
   const onSignUpPress = async () => {
-    if (!isLoaded) return
+    if (!isLoaded || !emailAddress || !password) return;
 
-    // Start sign-up process using email and password provided
+    setLoading(true);
     try {
-      await signUp.create({
-        emailAddress,
-        password,
-      })
-
-      // Send user an email with verification code
-      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
-
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
-      setPendingVerification(true)
+      await signUp.create({ emailAddress, password });
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      setPendingVerification(true);
     } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      console.error(JSON.stringify(err, null, 2));
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  // Handle submission of verification form
   const onVerifyPress = async () => {
-    if (!isLoaded) return
+    if (!isLoaded || !code) return;
 
+    setLoading(true);
     try {
-      // Use the code the user provided to attempt verification
-      const signUpAttempt = await signUp.attemptEmailAddressVerification({
-        code,
-      })
-
-      // If verification was completed, set the session to active
-      // and redirect the user
+      const signUpAttempt = await signUp.attemptEmailAddressVerification({ code });
       if (signUpAttempt.status === 'complete') {
-        await setActive({ session: signUpAttempt.createdSessionId })
-        router.replace('/')
+        await setActive({ session: signUpAttempt.createdSessionId });
+        router.replace('/');
       } else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
-        console.error(JSON.stringify(signUpAttempt, null, 2))
+        console.error(JSON.stringify(signUpAttempt, null, 2));
       }
     } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      console.error(JSON.stringify(err, null, 2));
+    } finally {
+      setLoading(false);
     }
-  }
-
-  if (pendingVerification) {
-    return (
-      <>
-        <Text>Verify your email</Text>
-        <TextInput
-          value={code}
-          placeholder="Enter your verification code"
-          onChangeText={(code) => setCode(code)}
-        />
-        <TouchableOpacity onPress={onVerifyPress}>
-          <Text>Verify</Text>
-        </TouchableOpacity>
-      </>
-    )
-  }
+  };
 
   return (
-  
-      <SafeAreaView>
-        <Text>Sign up</Text>
-        <TextInput
-          autoCapitalize="none"
-          value={emailAddress}
-          placeholder="Enter email"
-          onChangeText={(email) => setEmailAddress(email)}
-        />
-        <TextInput
-          value={password}
-          placeholder="Enter password"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-        <TouchableOpacity onPress={onSignUpPress}>
-          <Text>Continue</Text>
-        </TouchableOpacity>
-        <View style={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
-          <Text>Already have an account?</Text>
-          <Link href="/login">
-            <Text>Sign in</Text>
-          </Link>
+    <SafeAreaView className="flex-1 px-6 justify-center bg-white dark:bg-black">
+      {pendingVerification ? (
+        <View className="gap-5">
+          <ThemedText type="title" className="text-center ">Verify your email</ThemedText>
+          <ThemedTextInput
+            value={code}
+            placeholder="Enter your verification code"
+            onChangeText={setCode}
+            keyboardType="numeric"
+          />
+          <ThemedButton
+            title="Verify"
+            onPress={onVerifyPress}
+            loading={loading}
+            disabled={!code}
+            className="bg-green-600 rounded-xl py-4"
+            textClassName="text-white text-lg font-bold text-center"
+          />
         </View>
-      </SafeAreaView>
+      ) : (
+        <View className="w-full gap-5">
+          <ThemedText type="title" className="text-center">Sign up</ThemedText>
 
-  )
+          <ThemedTextInput
+            autoCapitalize="none"
+            value={emailAddress}
+            placeholder="Enter email"
+            onChangeText={setEmailAddress}
+          />
+          <ThemedTextInput
+            value={password}
+            placeholder="Enter password"
+            secureTextEntry
+            onChangeText={setPassword}
+          />
+          <ThemedButton
+            title="Continue"
+            onPress={onSignUpPress}
+            loading={loading}
+            disabled={!emailAddress || !password}
+            className="bg-green-600 rounded-xl py-4"
+            textClassName="text-white text-lg font-bold text-center"
+          />
+
+          <View className="flex-row mt-6">
+            <Text className="text-gray-600 dark:text-gray-300 mr-2">Already have an account?</Text>
+            <Link href="/login">
+              <Text className="text-green-600 font-semibold">Log in</Text>
+            </Link>
+          </View>
+        </View>
+      )}
+    </SafeAreaView>
+  );
 }
