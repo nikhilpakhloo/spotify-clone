@@ -8,8 +8,7 @@
 import { Slot } from 'expo-router';
 import 'react-native-reanimated';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { ActivityIndicator, View } from 'react-native';
-import { useColorScheme } from 'react-native';
+import { LogBox, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
@@ -17,6 +16,7 @@ import { tokenCache } from '@clerk/clerk-expo/token-cache';
 import * as SplashScreen from 'expo-splash-screen';
 import "../../global.css";
 import { useEffect } from 'react';
+
 
 
 
@@ -45,6 +45,7 @@ const InitialLayout = () => {
   }, [isLoaded])
   return <Slot />;
 };
+
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();

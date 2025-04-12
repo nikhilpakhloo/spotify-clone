@@ -25,9 +25,9 @@ export default function ThemedButton({
   ...props
 }: ThemedButtonProps) {
   const defaultButtonClasses =
-    'bg-blue-600 rounded-md py-3 mt-2 disabled:opacity-50 dark:bg-green-600';
+    'bg-light-primary rounded-md py-3 mt-2 disabled:opacity-50 dark:bg-dark-primary';
   const defaultTextClasses =
-    'text-white text-center font-semibold text-base dark:text-white';
+    'text-light-primaryText text-center font-semibold text-base dark:text-dark-secondaryText';
 
   return (
     <TouchableOpacity

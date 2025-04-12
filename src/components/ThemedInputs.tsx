@@ -19,8 +19,10 @@ export function ThemedTextInput({
   };
 
   const colorClasses =
-    'bg-white text-black border-gray-300 placeholder:text-gray-400 ' +
-    'dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder:text-gray-500';
+    'bg-light-background text-light-primaryText ' +
+    'border-light-primary placeholder:text-light-placeholder ' + 
+    'dark:bg-dark-background dark:text-dark-secondaryText ' +
+    'dark:border-dark-primary dark:placeholder:text-dark-placeholder';
 
   return (
     <TextInput

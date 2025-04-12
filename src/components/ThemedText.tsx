@@ -12,11 +12,11 @@ export function ThemedText({
   ...rest
 }: ThemedTextProps) {
   const typeClasses: Record<NonNullable<ThemedTextProps['type']>, string> = {
-    default: 'text-[16px] leading-[24px] text-black dark:text-white',
-    defaultSemiBold: 'text-[16px] leading-[24px] font-semibold text-black dark:text-white',
-    title: 'text-[32px] font-bold leading-[32px] text-black dark:text-white',
-    subtitle: 'text-[20px] font-bold text-black dark:text-white',
-    link: 'text-[16px] leading-[30px] text-[#0a7ea4] underline',
+    default: 'text-light-primaryText dark:text-dark-secondaryText text-[16px] leading-[24px]',
+    defaultSemiBold: 'text-light-primaryText dark:text-dark-secondaryText text-[16px] leading-[24px] font-semibold',
+    title: 'text-light-primaryText dark:text-dark-secondaryText text-[32px] font-bold leading-[32px]',
+    subtitle: 'text-light-primaryText dark:text-dark-secondaryText text-[20px] font-bold',
+    link: 'text-light-primary dark:text-dark-primary text-[16px] leading-[30px] underline',
   };
 
   return (
