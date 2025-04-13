@@ -8,14 +8,15 @@
 import { Slot } from 'expo-router';
 import 'react-native-reanimated';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { LogBox, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
-import { tokenCache } from '@clerk/clerk-expo/token-cache';
 import * as SplashScreen from 'expo-splash-screen';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { useEffect, useState } from 'react';
 import "../../global.css";
-import { useEffect } from 'react';
+import { AuthProvider } from '../context/AuthContext';
+
 
 
 
@@ -36,13 +37,19 @@ SplashScreen.setOptions({
  * @returns Loading indicator or child routes based on auth initialization state
  */
 const InitialLayout = () => {
-  const {isLoaded} = useAuth();
-  useEffect(()=>{
-    if(isLoaded){
-      SplashScreen.hideAsync();
-    }
+  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+ 
 
-  }, [isLoaded])
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((firebaseUser) => {
+      setUser(firebaseUser);
+      setLoading(false);
+      SplashScreen.hideAsync();
+    });
+
+    return unsubscribe;
+  }, []);
   return <Slot />;
 };
 
@@ -53,12 +60,12 @@ const RootLayout = () => {
   return (
  
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ClerkProvider tokenCache={tokenCache}>
+        <AuthProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <StatusBar style="auto" />
               <InitialLayout />
-          </ThemeProvider>            
-        </ClerkProvider>
+          </ThemeProvider>
+          </AuthProvider>            
       </GestureHandlerRootView>
 
   );

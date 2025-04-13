@@ -3,13 +3,13 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
 type UserCellProps = {
-  avatarUrl: string;
+  
   onPress?: () => void;
 };
 
 
 export default function UserCell({
-  avatarUrl ,
+
   onPress,
 }: UserCellProps) {
   return (
@@ -19,7 +19,7 @@ export default function UserCell({
       activeOpacity={0.7}
     >
       <Image
-        source={{uri:avatarUrl}}
+        source={{uri:"https://picsum.photos/seed/696/3000/2000"}}
         className="w-10 h-10 rounded-full"
        
       />

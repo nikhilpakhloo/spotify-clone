@@ -1,20 +1,17 @@
-import { useClerk } from '@clerk/clerk-expo'
-import * as Linking from 'expo-linking'
+
 import { Text, TouchableOpacity } from 'react-native'
+import { getApp } from '@react-native-firebase/app';
+import { getAuth } from '@react-native-firebase/auth';
 
 export const SignOutButton = () => {
-  // Use `useClerk()` to access the `signOut()` function
-  const { signOut } = useClerk()
 
   const handleSignOut = async () => {
     try {
-      await signOut()
-      // Redirect to your desired page
-      Linking.openURL(Linking.createURL('/'))
+       const auth = getAuth(getApp());
+      await auth.signOut()
+      .then(()=>console.log("Logged Out"))
     } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      console.error("Error signing out", err)
     }
   }
 

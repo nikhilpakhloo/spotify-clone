@@ -1,5 +1,4 @@
-import { useSignIn } from '@clerk/clerk-expo';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,37 +6,34 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/src/components/ThemedText';
 import { ThemedTextInput } from '@/src/components/ThemedInputs';
 import ThemedButton from '@/src/components/ThemedButton';
+import { getAuth } from '@react-native-firebase/auth';
+import { getApp } from '@react-native-firebase/app';
 
 export default function SignInScreen() {
-  const { signIn, setActive, isLoaded } = useSignIn();
-  const router = useRouter();
-
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const onSignInPress = async () => {
-    if (!isLoaded || !emailAddress.trim() || !password.trim()) return;
+    if (!emailAddress.trim() || !password.trim()) return;
 
     setLoading(true);
     setError(null);
 
     try {
-      const signInAttempt = await signIn.create({
-        identifier: emailAddress,
-        password,
-      });
-
-      if (signInAttempt.status === 'complete') {
-        await setActive({ session: signInAttempt.createdSessionId });
-        router.replace('/');
-      } else {
-        console.error(JSON.stringify(signInAttempt, null, 2));
-      }
+       const auth = getAuth(getApp());
+       await auth.signInWithEmailAndPassword(emailAddress, password);
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
-      setError(err.errors?.[0]?.message ?? 'Something went wrong');
+     
+      if (err.code === 'auth/user-not-found') {
+        setError('No user found with this email!');
+      } else if (err.code === 'auth/wrong-password') {
+        setError('Incorrect password!');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+      console.error(err);
     } finally {
       setLoading(false);
     }

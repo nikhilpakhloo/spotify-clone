@@ -19,6 +19,7 @@ export default {
       },
       versionCode: 1,
       package: 'com.anonymous.project',
+      googleServicesFile: "./google-services.json",
     },
     web: {
       bundler: 'metro',
@@ -26,6 +27,8 @@ export default {
       favicon: './src/assets/images/favicon.png',
     },
     plugins: [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
       'expo-router',
       [
         'expo-build-properties',

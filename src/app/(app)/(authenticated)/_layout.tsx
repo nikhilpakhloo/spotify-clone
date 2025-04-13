@@ -1,9 +1,10 @@
-import { useAuth } from "@clerk/clerk-expo";
+
 import { Redirect, Stack } from "expo-router";
+import { useAuth } from "@/src/context/AuthContext";
 
 export default function ProtectedLayout() {
-  const {isSignedIn} = useAuth();
-  if (!isSignedIn) {
+  const {user} = useAuth();
+  if (!user) {
     return <Redirect href="/login" />;
   }
   return (
