@@ -7,6 +7,7 @@ export default {
     orientation: 'portrait',
     icon: './src/assets/images/icon.png',
     scheme: 'myapp',
+    deepLinking:true,
     userInterfaceStyle: 'automatic',
     newArchEnabled: true,
     ios: {

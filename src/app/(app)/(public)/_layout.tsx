@@ -1,11 +1,15 @@
 import { useAuth } from "@/src/context/AuthContext";
-import { Stack, Redirect } from 'expo-router';
-
+import { Stack, Redirect, Href } from 'expo-router';
+import { useLinkingURL } from "expo-linking";
 
 const Layout = () => {
-  const {user} = useAuth();
+  const link = useLinkingURL();
+  const { user } = useAuth();
+  const isDevLink = link?.includes("exp+project:");
+  const redirectTarget = (!link || isDevLink) ? "/(app)/(authenticated)/(tabs)" : link;
+
   if (user) {
-    return <Redirect href="/(app)/(authenticated)/(tabs)" />;
+    return <Redirect href={redirectTarget as Href} />;
   }
 
   return (
@@ -18,4 +22,5 @@ const Layout = () => {
     </Stack>
   );
 };
+
 export default Layout;

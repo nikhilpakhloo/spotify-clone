@@ -12,14 +12,12 @@ import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useEffect, useState } from 'react';
 import "../../global.css";
 import { AuthProvider } from '../context/AuthContext';
-
-
-
-
+import { getApp } from "@react-native-firebase/app";
+import { getAuth } from "@react-native-firebase/auth";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -29,20 +27,16 @@ SplashScreen.setOptions({
 
 /**
  * InitialLayout component that handles the initial loading state
- *
- * This component checks if the authentication state has been initialized.
- * If not, it displays a loading spinner. Once initialized, it renders the
- * child routes using Expo Router's Slot component.
- *
- * @returns Loading indicator or child routes based on auth initialization state
+ * @returns  child routes based on auth initialization state
  */
 const InitialLayout = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const auth = getAuth(getApp());
  
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((firebaseUser) => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
       SplashScreen.hideAsync();
