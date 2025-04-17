@@ -48,11 +48,16 @@ export default {
         'expo-splash-screen',
         {
           image: './src/assets/images/splash-icon.png',
-          imageWidth: 200,
           resizeMode: 'contain',
-          backgroundColor: '#ffffff',
+          backgroundColor: '#131313',
+          dark: {
+            image: './src/assets/images/splash-icon.png',
+            resizeMode: 'contain',
+            backgroundColor: '#ffffff',
+          }
         },
-      ],
+      ]
+      
     ],
     experiments: {
       typedRoutes: true,
