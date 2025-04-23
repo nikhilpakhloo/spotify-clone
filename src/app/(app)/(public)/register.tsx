@@ -1,11 +1,14 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Alert } from 'react-native'
 import React from 'react'
 import Button from '@/src/components/Button'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, router } from 'expo-router';
 import BackButton from '@/src/components/BackButton';
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { GoogleSignin, isErrorWithCode, statusCodes } from "@react-native-google-signin/google-signin";
 import Constants from 'expo-constants'
+import { getAuth, GoogleAuthProvider } from '@react-native-firebase/auth';
+import { getApp } from '@react-native-firebase/app';
+
 
 
 const webClientId = Constants.expoConfig?.extra?.googleWebClientId
@@ -14,10 +17,10 @@ const webClientId = Constants.expoConfig?.extra?.googleWebClientId
 
 GoogleSignin.configure({
   webClientId:webClientId ,
+  offlineAccess: true,
 });
 export default function Register() {
-
-
+  const auth = getAuth(getApp());
   const ContinueWithMail = () => {
     router.navigate("/create-account/email-signup")
 
@@ -27,8 +30,37 @@ export default function Register() {
   }
  
   const ContinueWithGoogle = async () => {
-
+  try {
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    await GoogleSignin.signOut();
+    const userInfo = await GoogleSignin.signIn();
+    const email = userInfo?.data?.user?.email;
+    const { idToken } = await GoogleSignin.getTokens()
+    if (!idToken) {
+      Alert.alert('Google Sign-In failed', 'No ID token found.');
+      return;
+    }
+   
+    const googleCredential = GoogleAuthProvider.credential(idToken);
+    await auth.signInWithCredential(googleCredential);
+    
+  } catch (error) {
+    if (isErrorWithCode(error)) {
+      switch (error.code) {
+        case statusCodes.IN_PROGRESS:
+          Alert.alert('In Progress', 'Sign-in already in progress');
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          Alert.alert('Error', 'Google Play Services not available or outdated');
+          break;
+        default:
+          Alert.alert('Error', error.message);
+      }
+    } else {
+      Alert.alert('Unexpected Error', String(error));
+    }
   }
+  };
   return (
 
     <View className='flex-1 bg-primary justify-center items-center'>

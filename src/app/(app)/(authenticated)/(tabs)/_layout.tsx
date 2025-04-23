@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 // https://github.com/EvanBacon/expo-router-forms-components/blob/main/components/ui/Tabs.tsx
 export default function TabLayout() {
     return (
@@ -10,6 +11,7 @@ export default function TabLayout() {
                         tabBarInactiveTintColor: "#000000",
                     }
                 }>
+                    <StatusBar style='auto'/>
                 <Tabs.Screen
                     name="index"
                     options={{

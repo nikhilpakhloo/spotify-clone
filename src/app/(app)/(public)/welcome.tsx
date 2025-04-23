@@ -3,7 +3,6 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Image } from 'react-native'
 import Button from '@/src/components/Button'
-import { StatusBar } from "expo-status-bar"
 import { router } from 'expo-router'
 
 export default function Welcome() {

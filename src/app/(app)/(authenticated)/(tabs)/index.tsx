@@ -14,8 +14,8 @@ export default function Logout() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-2xl font-semibold">Are you sure you want to logout?</Text>
+    <View className="flex-1 justify-center items-center bg-primary">
+      <Text className="text-2xl font-semibold text-white">Are you sure you want to logout?</Text>
       <Button title="Logout" onPress={handleLogout} />
     </View>
   );
