@@ -6,21 +6,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        light: {
-          background: '#FFFFFF',
-          primary: '#16A34A',
+          primary: '#121212',
           secondary: '#C1BFFF',
-          primaryText: '#000000',
-          placeholder: "#E5E7EB"
-        },
-        dark: {
-          background: '#121212',
-          primary: '#16A34A',
-          secondary: '#C1BFFF',
-          secondaryText: '#FFFFFF',
-          placeholder: "#333333"
-
-        },
+          primaryText: '#FFFFFF',
+          placeholder: "#E5E7EB",
+          primaryButton:'#16a34a'
+      
       },
     },
   },

@@ -1,79 +1,48 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-import { getApp } from "@react-native-firebase/app";
-import { createUserWithEmailAndPassword, getAuth } from "@react-native-firebase/auth";
-import { Link } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, Image } from 'react-native'
+import React from 'react'
+import Button from '@/src/components/Button'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Link, router } from 'expo-router';
+import BackButton from '@/src/components/BackButton';
 
-import { ThemedText } from '@/src/components/ThemedText';
-import ThemedButton from '@/src/components/ThemedButton';
-import { ThemedTextInput } from '@/src/components/ThemedInputs';
-
-export default function SignUpScreen() {
-  const [loading, setLoading] = React.useState(false);
-  const [emailAddress, setEmailAddress] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const onSignUpPress= async()=>{
-    try {
-      setLoading(true)
-      const auth = getAuth(getApp())
-      await createUserWithEmailAndPassword(auth,emailAddress, password);
-      
-    } catch (error) {
-      if ((error as any).code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
-      }
-  
-      if ((error as any).code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
-      }
-  
-      console.error(error);
-      
-    }
-    setLoading(false)
+export default function Register() {
+  const ContinueWithMail = () => {
+    router.navigate("/create-account/email")
 
   }
+  const ContinueWithPhone = () => {
 
+  }
+  const ContinueWithGoogle = () => {
 
-
+  }
   return (
-    <SafeAreaView className="flex-1 px-6 justify-center bg-white dark:bg-black">
-      
 
-        <View className="w-full gap-5">
-          <ThemedText type="title" className="text-center">Create account</ThemedText>
+    <View className='flex-1 bg-primary justify-center items-center'>
+       <View className='absolute top-14 left-5 z-10'>
+              <BackButton />
+            </View>
+      <View className='flex-1 justify-center items-center pt-12'>
+        <Image
+          source={require('@/src/assets/images/spotify2.png')}
+          className='w-20 h-20 mb-6'
+          style={{ tintColor: '#fff' }}
+        />
+        <Text className='text-primaryText text-4xl font-bold text-center'>
+          Signup to start {'\n'} listening.
+        </Text>
+      </View>
+      <View className='mb-10 w-[90%] gap-3'>
+        <Button className="bg-primaryButton p-4 rounded-full w-full" text='Continue with mail' onPress={ContinueWithMail} textStyle='text-black font-semibold text-lg text-center' icon={<Ionicons name="mail-outline" size={25} color="black" />} />
+        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with number' onPress={ContinueWithPhone} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="phone-portrait-outline" size={25} color="white" />} />
+        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with Google' onPress={ContinueWithGoogle} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="logo-google" size={25} color="white" />} />
+      </View>
+      <View className='mb-10 gap-3'>
+        <Text  className='text-white text-lg text-center'>Already have an account?</Text>
 
+        <Link href={"/login"} className='text-white text-lg text-center'>Login</Link>
+      </View>
+    </View>
 
-          <ThemedTextInput
-            autoCapitalize="none"
-            value={emailAddress}
-            placeholder="Enter email"
-            onChangeText={setEmailAddress}
-          />
-          <ThemedTextInput
-            value={password}
-            placeholder="Enter password"
-            secureTextEntry
-            onChangeText={setPassword}
-          />
-          <ThemedButton
-            title="Continue"
-            onPress={onSignUpPress}
-            loading={loading}
-            disabled={!emailAddress || !password}
-            className="bg-green-600 rounded-xl py-4"
-            textClassName="text-white text-lg font-bold text-center"
-          />
-        </View>
-
-        <View className="flex-row mt-6 justify-center ">
-          <Text className="text-gray-600 dark:text-gray-300 mr-2">Already have an account?</Text>
-          <Link href="/login" replace>
-            <Text className="text-green-600 font-semibold">Log in</Text>
-          </Link>
-        </View>
-
-    </SafeAreaView>
-  );
+  )
 }

@@ -1,90 +1,51 @@
+import { View, Text, Image } from 'react-native'
+import React from 'react'
+import Button from '@/src/components/Button'
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link } from 'expo-router';
-import { Text, View } from 'react-native';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import BackButton from '@/src/components/BackButton';
 
-import { ThemedText } from '@/src/components/ThemedText';
-import { ThemedTextInput } from '@/src/components/ThemedInputs';
-import ThemedButton from '@/src/components/ThemedButton';
-import { getAuth } from '@react-native-firebase/auth';
-import { getApp } from '@react-native-firebase/app';
+export default function Login() {
+  const ContinueWithMail = () => {
 
-export default function SignInScreen() {
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  }
+  const ContinueWithPhone = () => {
 
-  const onSignInPress = async () => {
-    if (!emailAddress.trim() || !password.trim()) return;
+  }
+  const ContinueWithGoogle = () => {
 
-    setLoading(true);
-    setError(null);
+  }
+  const ContinueWithFb = () => {
 
-    try {
-       const auth = getAuth(getApp());
-       await auth.signInWithEmailAndPassword(emailAddress, password);
-    } catch (err: any) {
-     
-      if (err.code === 'auth/user-not-found') {
-        setError('No user found with this email!');
-      } else if (err.code === 'auth/wrong-password') {
-        setError('Incorrect password!');
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  }
   return (
-    <SafeAreaView className="flex-1 justify-center items-center px-6 bg-white dark:bg-black">
-      <View className="w-full items-center mb-8">
-        <ThemedText type="title" className="text-3xl">Welcome Back</ThemedText>
-        <ThemedText type="subtitle" className="mt-2 text-gray-500 dark:text-gray-400">
-          Sign in to your account
-        </ThemedText>
+
+    <View className='flex-1 bg-primary justify-center items-center'>
+       <View className='absolute top-14 left-5 z-10'>
+        <BackButton />
       </View>
-
-      <View className="w-full gap-5">
-        <ThemedTextInput
-          type="default"
-          placeholder="Email"
-          value={emailAddress}
-          onChangeText={setEmailAddress}
-          autoCapitalize="none"
+      <View className='flex-1 justify-center items-center pt-12'>
+        <Image
+          source={require('@/src/assets/images/spotify2.png')}
+          className='w-20 h-20 mb-6'
+          style={{ tintColor: '#fff' }}
         />
-
-        <ThemedTextInput
-          type="default"
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-
-        {error && (
-          <Text className="text-red-500 text-sm text-center">{error}</Text>
-        )}
-
-        <ThemedButton
-          title="Sign In"
-          onPress={onSignInPress}
-          loading={loading}
-          disabled={!emailAddress.trim() || !password.trim()}
-          className="bg-green-600 rounded-xl py-4"
-          textClassName="text-white text-lg font-bold text-center"
-        />
+        <Text className='text-primaryText text-4xl font-bold text-center'>
+          Log in to Spotify
+        </Text>
       </View>
-
-      <View className="flex-row mt-6">
-        <Text className="text-gray-600 dark:text-gray-300 mr-2">Don't have an account?</Text>
-        <Link href="/register" replace>
-          <Text className="text-green-600 font-semibold">Sign up</Text>
-        </Link>
+      <View className='mb-10 w-[90%] gap-3'>
+        <Button className="bg-primaryButton p-4 rounded-full w-full" text='Continue with mail' onPress={ContinueWithMail} textStyle='text-black font-semibold text-lg text-center' icon={<Ionicons name="mail-outline" size={25} color="black" />} />
+        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with number' onPress={ContinueWithPhone} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="phone-portrait-outline" size={25} color="white" />} />
+        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with Google' onPress={ContinueWithGoogle} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="logo-google" size={25} color="white" />} />
+        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with Facebook' onPress={ContinueWithFb} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="logo-facebook" size={25} color="white" />} />
       </View>
-    </SafeAreaView>
-  );
+      <View className='mb-10 gap-3'>
+        <Text  className='text-white text-lg text-center'>Don't have an account?</Text>
+
+        <Link href={"/register"} className='text-white text-lg text-center'>Sign up</Link>
+      </View>
+    </View>
+
+  )
 }

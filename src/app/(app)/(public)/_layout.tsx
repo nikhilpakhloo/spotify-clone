@@ -14,7 +14,9 @@ const Layout = () => {
 
   return (
     <Stack>
+      <Stack.Screen name="welcome" options={{ headerShown: false, title: 'Login' }} />
       <Stack.Screen name="login" options={{ headerShown: false, title: 'Login' }} />
+      <Stack.Screen name="create-account" options={{ headerShown: false, title: 'Login' }} />
       <Stack.Screen
         name="register"
         options={{ title: 'Create Account', headerShown: false }}

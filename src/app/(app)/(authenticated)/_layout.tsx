@@ -5,7 +5,7 @@ import { useAuth } from "@/src/context/AuthContext";
 export default function ProtectedLayout() {
   const {user} = useAuth();
   if (!user) {
-    return <Redirect href="/login" />;
+    return <Redirect href="/welcome" />;
   }
   return (
     <Stack>

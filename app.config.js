@@ -47,14 +47,9 @@ export default {
       [
         'expo-splash-screen',
         {
-          image: './src/assets/images/splash-icon.png',
+          image: './src/assets/images/spotify.png',
           resizeMode: 'contain',
           backgroundColor: '#131313',
-          dark: {
-            image: './src/assets/images/splash-icon.png',
-            resizeMode: 'contain',
-            backgroundColor: '#ffffff',
-          }
         },
       ]
       
