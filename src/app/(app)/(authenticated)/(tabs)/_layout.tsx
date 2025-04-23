@@ -1,19 +1,13 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useColorScheme } from 'react-native';
-
-
 // https://github.com/EvanBacon/expo-router-forms-components/blob/main/components/ui/Tabs.tsx
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
     return (
-        <>
-     
             <Tabs
                 screenOptions={
                     {
                         tabBarActiveTintColor: '#16a34a',
-                        tabBarInactiveTintColor: `${colorScheme === "dark" ? "#ffffff" : "#000000"}`,
+                        tabBarInactiveTintColor: "#000000",
                     }
                 }>
                 <Tabs.Screen
@@ -47,9 +41,6 @@ export default function TabLayout() {
                         ),
                     }}
                 />
-
-
-            </Tabs>
-        </>
+            </Tabs> 
     );
 }

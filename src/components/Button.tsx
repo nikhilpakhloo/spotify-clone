@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 
 type ButtonProps = {
   className: string;
-  text: string;
+  text: React.ReactNode;
   textStyle?: string;
   onPress: () => void;
   icon?: React.ReactNode;
+  disabled?: boolean;
 };
 
 export default function Button({
@@ -15,33 +16,36 @@ export default function Button({
   textStyle = 'text-white text-lg text-center',
   onPress,
   icon,
+  disabled = false,
 }: ButtonProps) {
   const [scale, setScale] = useState(1);
   const [opacity, setOpacity] = useState(1);
 
+
   return (
     <Pressable
-      className={className}
+      className={`${className} ${disabled ? 'opacity-50' : ''}`}
       onPress={onPress}
       onPressIn={() => {
-        setScale(0.95);
-        setOpacity(0.7);
+        if (!disabled) {
+          setScale(0.95);
+          setOpacity(0.7);
+        }
       }}
       onPressOut={() => {
-        setScale(1);
-        setOpacity(1);
+        if (!disabled) {
+          setScale(1);
+          setOpacity(1);
+        }
       }}
       style={{
         transform: [{ scale }],
         opacity,
       }}
+      disabled={disabled}
     >
-      <View className="relative items-center justify-center">
-        {icon &&
-          <View className="absolute left-4">
-            {icon}
-          </View>}
-
+      <View className="relative items-center justify-center flex-row">
+        {icon && <View className="mr-2">{icon}</View>}
         <Text className={textStyle}>{text}</Text>
       </View>
     </Pressable>

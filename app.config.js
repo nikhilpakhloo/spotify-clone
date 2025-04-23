@@ -10,6 +10,9 @@ export default {
     deepLinking:true,
     userInterfaceStyle: 'automatic',
     newArchEnabled: true,
+    extra: {
+      googleWebClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+    },
     ios: {
       supportsTablet: true,
     },

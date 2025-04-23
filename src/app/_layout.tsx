@@ -17,11 +17,13 @@ import "../../global.css";
 import { AuthProvider } from '../context/AuthContext';
 import { getApp } from "@react-native-firebase/app";
 import { getAuth } from "@react-native-firebase/auth";
+import { Provider } from 'react-redux'
+import { store } from '../store';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({
-  fade:true,
+  fade: true,
 })
 
 /**
@@ -32,7 +34,7 @@ const InitialLayout = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const auth = getAuth(getApp());
- 
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
@@ -50,13 +52,15 @@ const InitialLayout = () => {
 const RootLayout = () => {
 
   return (
- 
-      <GestureHandlerRootView style={{ flex: 1 }}>
+
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
         <AuthProvider>
-              <StatusBar style="auto" />
-              <InitialLayout />
-          </AuthProvider>            
-      </GestureHandlerRootView>
+          <StatusBar style="auto" />
+          <InitialLayout />
+        </AuthProvider>
+      </Provider>
+    </GestureHandlerRootView>
 
   );
 };

@@ -2,11 +2,12 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 import Button from '@/src/components/Button'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import BackButton from '@/src/components/BackButton';
 
 export default function Login() {
   const ContinueWithMail = () => {
+    router.navigate("/(app)/(public)/log-in/email-login")
 
   }
   const ContinueWithPhone = () => {

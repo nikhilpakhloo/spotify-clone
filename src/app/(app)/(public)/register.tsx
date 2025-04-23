@@ -4,16 +4,29 @@ import Button from '@/src/components/Button'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, router } from 'expo-router';
 import BackButton from '@/src/components/BackButton';
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import Constants from 'expo-constants'
 
+
+const webClientId = Constants.expoConfig?.extra?.googleWebClientId
+
+
+
+GoogleSignin.configure({
+  webClientId:webClientId ,
+});
 export default function Register() {
+
+
   const ContinueWithMail = () => {
-    router.navigate("/create-account/email")
+    router.navigate("/create-account/email-signup")
 
   }
   const ContinueWithPhone = () => {
 
   }
-  const ContinueWithGoogle = () => {
+ 
+  const ContinueWithGoogle = async () => {
 
   }
   return (

@@ -1,17 +1,31 @@
-import { View, Text, TextInput, Pressable } from 'react-native'
+import { View, Text, TextInput, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import BackButton from '@/src/components/BackButton'
 import Button from '@/src/components/Button'
 import { Feather } from '@expo/vector-icons'
-
+import { createUserWithEmailAndPassword, getAuth } from '@react-native-firebase/auth'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/src/store'
 
 export default function Password() {
   const [showPassword, setShowPassword] = useState(false)
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const email = useSelector((state: RootState) => state.onboarding.email)
 
-  const handlePasswordSubmit = () => {
-    // Add validation if needed
- 
+  const handlePasswordSubmit = async () => {
+    if (!password || !email) return
+
+    setLoading(true)
+
+    const auth = getAuth()
+    try {
+      await createUserWithEmailAndPassword(auth, email, password)
+    } catch (error: any) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -45,11 +59,12 @@ export default function Password() {
         </Pressable>
       </View>
 
-      <View className='flex-row justify-center w-full mt-10'>
+      <View className='flex-row justify-center w-full mt-10 relative'>
         <Button
-          text='Done'
-          className='bg-primaryButton p-3 w-[30%] rounded-full self-center'
+          text={loading ? <ActivityIndicator color="#fff" /> : 'Done'}
+          className={`bg-primaryButton p-3 w-[30%] rounded-full self-center ${(!password || loading) ? 'opacity-50' : ''}`}
           onPress={handlePasswordSubmit}
+          disabled={!password || loading}
         />
       </View>
     </View>
