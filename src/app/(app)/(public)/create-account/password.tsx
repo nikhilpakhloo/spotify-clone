@@ -11,6 +11,7 @@ export default function Password() {
   const [showPassword, setShowPassword] = useState(false)
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null);
   const email = useSelector((state: RootState) => state.onboarding.email)
 
   const handlePasswordSubmit = async () => {
@@ -23,6 +24,7 @@ export default function Password() {
       await createUserWithEmailAndPassword(auth, email, password)
     } catch (error: any) {
       console.error(error)
+      setError(error)
     } finally {
       setLoading(false)
     }
@@ -58,6 +60,7 @@ export default function Password() {
           />
         </Pressable>
       </View>
+      {error&& <Text className='text-red-400'>{error.message}</Text>}
 
       <View className='flex-row justify-center w-full mt-10 relative'>
         <Button

@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link } from 'expo-router';
 import Button from '@/src/components/Button';
 import BackButton from '@/src/components/BackButton';
-import { configureGoogleSignin, GoogleAuth } from '@/src/utils/apis/googleAuth';
+import { configureGoogleSignin, GoogleAuth } from '@/src/api/googleAuth';
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
