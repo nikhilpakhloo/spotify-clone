@@ -6,9 +6,11 @@ const Layout = () => {
   const link = useLinkingURL();
   const { user } = useAuth();
   const isDevLink = link?.includes("exp+project:");
-  const redirectTarget = (!link || isDevLink) ? "/(app)/(authenticated)/(tabs)" : link;
-
+  const redirectTarget = (!link || isDevLink) ? "/(app)/(authenticated)/(drawer)/(tabs)" : link;
   if (user) {
+    if (redirectTarget.includes("register") || redirectTarget.includes("login")) {
+      return <Redirect href={"/(app)/(authenticated)/(drawer)/(tabs)"}/>
+    };
     return <Redirect href={redirectTarget as Href} />;
   }
 

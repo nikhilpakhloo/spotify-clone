@@ -9,6 +9,7 @@ module.exports = {
           primary: '#121212',
           secondary: '#C1BFFF',
           primaryText: '#FFFFFF',
+          secondaryText:"#D1D5DB",
           placeholder: "#E5E7EB",
           primaryButton:'#16a34a'
       
