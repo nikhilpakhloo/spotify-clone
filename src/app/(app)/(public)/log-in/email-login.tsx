@@ -77,7 +77,7 @@ export default function EmailLogin() {
           onChangeText={setPassword}
           placeholder="Enter your password"
           placeholderTextColor="#ccc"
-          secureTextEntry
+          secureTextEntry={!showPassword}
           className="w-full bg-white/10 text-white px-4 py-3 rounded-xl border border-white/20"
         />
         <Pressable

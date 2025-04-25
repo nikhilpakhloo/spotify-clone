@@ -7,7 +7,6 @@ export default function CreateLayout() {
   <Stack screenOptions={{headerShown:false}}>
     <Stack.Screen name='email-signup' options={{headerShown:false, title:"Create Account"}}/>
     <Stack.Screen name='password' options={{headerShown:false, title:"Create Account"}}/>
-    <Stack.Screen name='phone' options={{headerShown:false, title:"Create Account"}}/>
   </Stack>
   )
 }

@@ -5,7 +5,7 @@ export default {
     slug: 'project',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './src/assets/images/icon.png',
+    icon: './src/assets/images/spotify.png',
     scheme: 'myapp',
     deepLinking:true,
     userInterfaceStyle: 'automatic',
@@ -18,7 +18,7 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './src/assets/images/adaptive-icon.png',
+        foregroundImage: './src/assets/images/spotify2.png',
         backgroundColor: '#ffffff',
       },
       versionCode: 1,
