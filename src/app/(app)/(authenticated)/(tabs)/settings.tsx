@@ -3,8 +3,8 @@ import React from 'react'
 
 export default function Settings() {
   return (
-    <View>
-      <Text className='text-light-primaryText dark:text-dark-secondaryText'>Settings</Text>
+    <View className='flex-1 justify-center items-center bg-primary'>
+      <Text className='text-white'>Settings</Text>
     </View>
   )
 }

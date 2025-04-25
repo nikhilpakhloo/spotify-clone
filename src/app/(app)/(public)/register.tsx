@@ -1,72 +1,34 @@
-import { View, Text, Image, Alert } from 'react-native'
-import React from 'react'
-import Button from '@/src/components/Button'
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
+import Button from '@/src/components/Button';
 import BackButton from '@/src/components/BackButton';
-import { GoogleSignin, isErrorWithCode, statusCodes } from "@react-native-google-signin/google-signin";
-import Constants from 'expo-constants'
-import { getAuth, GoogleAuthProvider } from '@react-native-firebase/auth';
-import { getApp } from '@react-native-firebase/app';
+import { configureGoogleSignin, GoogleAuth } from '@/src/utils/apis/googleAuth';
 
-
-
-const webClientId = Constants.expoConfig?.extra?.googleWebClientId
-
-
-
-GoogleSignin.configure({
-  webClientId:webClientId ,
-  offlineAccess: true,
-});
 export default function Register() {
-  const auth = getAuth(getApp());
-  const ContinueWithMail = () => {
-    router.navigate("/create-account/email-signup")
+  const [loading, setLoading] = useState(false);
 
-  }
-  const ContinueWithPhone = () => {
+  useEffect(()=>{
+    configureGoogleSignin()
+  }, [])
+   const handleGoogleAuth = async () => {
+     setLoading(true); 
+     try {
+       await GoogleAuth();
+     } catch (error) {
+       console.error("Google Authentication Error:", error);
+     } finally {
+       setLoading(false); 
+     }
+   };
 
-  }
- 
-  const ContinueWithGoogle = async () => {
-  try {
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    await GoogleSignin.signOut();
-    const userInfo = await GoogleSignin.signIn();
-    const email = userInfo?.data?.user?.email;
-    const { idToken } = await GoogleSignin.getTokens()
-    if (!idToken) {
-      Alert.alert('Google Sign-In failed', 'No ID token found.');
-      return;
-    }
-   
-    const googleCredential = GoogleAuthProvider.credential(idToken);
-    await auth.signInWithCredential(googleCredential);
-    
-  } catch (error) {
-    if (isErrorWithCode(error)) {
-      switch (error.code) {
-        case statusCodes.IN_PROGRESS:
-          Alert.alert('In Progress', 'Sign-in already in progress');
-          break;
-        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-          Alert.alert('Error', 'Google Play Services not available or outdated');
-          break;
-        default:
-          Alert.alert('Error', error.message);
-      }
-    } else {
-      Alert.alert('Unexpected Error', String(error));
-    }
-  }
-  };
   return (
-
     <View className='flex-1 bg-primary justify-center items-center'>
-       <View className='absolute top-14 left-5 z-10'>
-              <BackButton />
-            </View>
+      <View className='absolute top-14 left-5 z-10'>
+        <BackButton />
+      </View>
+
       <View className='flex-1 justify-center items-center pt-12'>
         <Image
           source={require('@/src/assets/images/spotify2.png')}
@@ -77,17 +39,39 @@ export default function Register() {
           Signup to start {'\n'} listening.
         </Text>
       </View>
-      <View className='mb-10 w-[90%] gap-3'>
-        <Button className="bg-primaryButton p-4 rounded-full w-full" text='Continue with mail' onPress={ContinueWithMail} textStyle='text-black font-semibold text-lg text-center' icon={<Ionicons name="mail-outline" size={25} color="black" />} />
-        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with number' onPress={ContinueWithPhone} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="phone-portrait-outline" size={25} color="white" />} />
-        <Button className="bg-transparent p-4 border-[1px] border-white rounded-full w-full" text='Continue with Google' onPress={ContinueWithGoogle} textStyle='text-white font-semibold text-lg text-center' icon={<Ionicons name="logo-google" size={25} color="white" />} />
-      </View>
-      <View className='mb-10 gap-3'>
-        <Text  className='text-white text-lg text-center'>Already have an account?</Text>
 
+      <View className='mb-10 w-[90%] gap-3'>
+        <Link href="/create-account/email-signup" asChild>
+          <Button
+            className="bg-primaryButton p-4 rounded-full w-full"
+            text="Continue with mail"
+            textStyle="text-black font-semibold text-lg text-center"
+            icon={<Ionicons name="mail-outline" size={25} color="black" />}
+          />
+        </Link>
+
+        <Link href="/phone" asChild>
+          <Button
+            className="bg-transparent p-4 border-[1px] border-white rounded-full w-full"
+            text="Continue with number"
+            textStyle="text-white font-semibold text-lg text-center"
+            icon={<Ionicons name="phone-portrait-outline" size={25} color="white" />}
+          />
+        </Link>
+        <Button
+          className="bg-transparent p-4 border-[1px] border-white rounded-full w-full"
+          text='Continue with Google'
+          onPress={handleGoogleAuth}
+          textStyle='text-white font-semibold text-lg text-center'
+          icon={<Ionicons name="logo-google" size={25} color="white" />}
+          loading={loading}
+        />
+      </View>
+
+      <View className='mb-10 gap-3'>
+        <Text className='text-white text-lg text-center'>Already have an account?</Text>
         <Link href={"/login"} className='text-white text-lg text-center'>Login</Link>
       </View>
     </View>
-
-  )
+  );
 }
