@@ -1,10 +1,17 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { Text, TouchableOpacity } from 'react-native';
+import React from 'react';
 
-export default function Chips() {
+type Props = {
+  text: string;
+  onPress: () => void;
+  className?: string;
+  textStyle?: string;
+};
+
+export default function Chips({ text, onPress, className = "", textStyle = "" }: Props) {
   return (
-    <View>
-      <Text>Chips</Text>
-    </View>
-  )
+    <TouchableOpacity onPress={onPress} className={`  ${className}`}>
+      <Text className={textStyle}>{text}</Text>
+    </TouchableOpacity>
+  );
 }

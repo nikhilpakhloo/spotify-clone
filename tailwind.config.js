@@ -11,7 +11,8 @@ module.exports = {
           primaryText: '#FFFFFF',
           secondaryText:"#D1D5DB",
           placeholder: "#E5E7EB",
-          primaryButton:'#16a34a'
+          primaryButton:'#16a34a',
+          secondaryButton:"#2c2b2b"
       
       },
     },
