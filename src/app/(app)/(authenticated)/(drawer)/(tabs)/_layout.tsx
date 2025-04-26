@@ -7,6 +7,7 @@ import { BlurView } from 'expo-blur';
 // https://github.com/EvanBacon/expo-router-forms-components/blob/main/components/ui/Tabs.tsx
 export default function TabLayout() {
   return (
+    
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#fff",
