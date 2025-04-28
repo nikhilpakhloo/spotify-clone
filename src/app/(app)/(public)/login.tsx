@@ -5,8 +5,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link } from 'expo-router';
 import BackButton from '@/src/components/BackButton';
-import { GoogleAuth, configureGoogleSignin } from '@/src/api/googleAuth';
-import { spotifyAuth } from '@/src/api/spotifyAuth';
+import { configureGoogleSignin, GoogleAuth } from '@/src/lib/googleAuth';
+import { spotifyAuth } from '@/src/lib/spotifyAuth';
+
 
 export default function Login() {
   const [googleLoading, setGoogleLoading] = useState(false);

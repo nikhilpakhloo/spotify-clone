@@ -7,7 +7,6 @@
  */
 import { Slot } from 'expo-router';
 import 'react-native-reanimated';
-import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';

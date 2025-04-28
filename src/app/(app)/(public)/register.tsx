@@ -5,7 +5,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link } from 'expo-router';
 import Button from '@/src/components/Button';
 import BackButton from '@/src/components/BackButton';
-import { configureGoogleSignin, GoogleAuth } from '@/src/api/googleAuth';
+import { configureGoogleSignin, GoogleAuth } from '@/src/lib/googleAuth';
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
