@@ -1,13 +1,17 @@
-import { View } from 'react-native'
+import {  Text } from 'react-native'
 import React from 'react'
-import BackButton from '@/src/components/BackButton'
+import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import BackButton from '@/src/components/BackButton';
+
 
 export default function Profile() {
-    return (
-        <View className='flex-1 justify-center items-center bg-primary'>
-            <View className='absolute top-14 left-5 z-10'>
-                <BackButton />
-            </View>
-        </View>
-    )
+  return (
+    <LinearGradient colors={["#040306", "#131624"]} className="flex-1 ">
+      <SafeAreaView>
+        <BackButton/>
+      <Text className='text-white'>Profile</Text>
+      </SafeAreaView>
+    </LinearGradient>
+  )
 }

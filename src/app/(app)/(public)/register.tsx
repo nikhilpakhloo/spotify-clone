@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link } from 'expo-router';
 import Button from '@/src/components/Button';
 import BackButton from '@/src/components/BackButton';
@@ -41,14 +42,8 @@ export default function Register() {
       </View>
 
       <View className='mb-10 w-[90%] gap-3'>
-        <Link href="/create-account/email-signup" asChild>
-          <Button
-            className="bg-primaryButton p-4 rounded-full w-full"
-            text="Continue with mail"
-            textStyle="text-black font-semibold text-lg text-center"
-            icon={<Ionicons name="mail-outline" size={25} color="black" />}
-          />
-        </Link>
+      <Button className="bg-primaryButton p-4 rounded-full w-full" text='Sign in with Spotify' textStyle='text-black font-semibold text-lg text-center' icon={<FontAwesome name="spotify" size={25} color="black" />} />
+
 
         <Link href="/phone" asChild>
           <Button

@@ -1,32 +1,30 @@
-import React from 'react';
-import {  FlatList, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import Header from '@/src/components/Header';
-import { RootState } from '@/src/store';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {Image} from "expo-image";
+import React, { useCallback } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import ArtistCard from "@/src/components/ArtistCard";
+import RecentlyPlayedCard from "@/src/components/RecentlyPlayedCard";
+import UserCell from "@/src/components/UserCell";
+import { useAuth } from "@/src/context/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
-export default function Logout() {
-  const data = useSelector((state: RootState) => state.data.allData);
 
-  const renderItem = ({ item }: { item: any }) => (
-    <View className="flex-row items-center gap-4 p-4 border-b">
-      <Image source={{ uri: item.poster }} style={{ width: 50, height: 50 }} />
-      <Text className="text-white">{item.title}</Text>
-    </View>
-  );
+const Home: React.FC = () => {
+  const { user } = useAuth();
+  const greetingMessage = useCallback((): string => {
+    const currentTime = new Date().getHours();
+    if (currentTime < 12) return "Good Morning";
+    if (currentTime < 16) return "Good Afternoon";
+    return "Good Evening";
+  }, []);
 
+  const message = greetingMessage();
   return (
-    <SafeAreaView className="flex-1 bg-primary">
-      <Header />
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingTop: 20, paddingBottom: 50 }}
-        ListEmptyComponent={<Text className="text-white text-center">No items available</Text>}
-      />
-    </SafeAreaView>
+    <LinearGradient colors={["#040306", "#131624"]} className="flex-1 ">
+      <SafeAreaView>
+        <UserCell user={user} />
+      </SafeAreaView>
+    </LinearGradient>
   );
-}
+};
+
+export default Home;

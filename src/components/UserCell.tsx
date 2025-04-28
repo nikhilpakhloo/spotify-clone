@@ -1,17 +1,17 @@
 import { Pressable, Text, View } from 'react-native';
-import { Image } from 'expo-image'; // Import from expo-image
+import { Image } from 'expo-image'; 
 import React from 'react';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 
 type User = {
-  displayName: string;
-  photoURL: string;
-  phoneNumber:string
+  displayName: string | null; 
+  photoURL: string | null;
+  phoneNumber: string | null;
 };
 
 type UserCellProps = {
-  user: User;
+  user: User | null;
   onPress?: () => void;
   isDrawer?: boolean;
 };
@@ -24,7 +24,6 @@ export default function UserCell({ user, onPress,  isDrawer = false }: UserCellP
   const toggledrawer = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
-
 
   return (
     <Pressable onPress={onPress || toggledrawer} className="flex-row items-center p-3 gap-5  ">
