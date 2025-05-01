@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import * as AuthSession from 'expo-auth-session';
 import { useAuth } from '../context/AuthContext';
+import * as SecureStore from 'expo-secure-store';
+
 
 const CLIENT_ID = process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_ID as string;
 
@@ -59,6 +61,7 @@ export const useSpotifyAuth = () => {
 
           const tokenResult = await res.json();
           if (tokenResult.access_token) {
+            await SecureStore.setItemAsync('spotify_access_token', tokenResult.access_token);
             setUser(tokenResult);
           } else {
             console.error('Token error:', tokenResult);

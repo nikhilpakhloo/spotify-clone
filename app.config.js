@@ -36,6 +36,7 @@ export default {
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       "@react-native-google-signin/google-signin",
+      "expo-secure-store",
       'expo-router',
       [
         'expo-build-properties',
