@@ -17,6 +17,7 @@ import { AuthProvider } from '../context/AuthContext';
 import { getApp } from "@react-native-firebase/app";
 import { getAuth } from "@react-native-firebase/auth";
 import { PlayerContext } from '../context/PlayerContext';
+import { View } from 'react-native';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -54,7 +55,7 @@ const RootLayout = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthProvider>
           <PlayerContext>
-          <StatusBar style="auto" />
+          <StatusBar style="light" />
           <InitialLayout />
           </PlayerContext>
         </AuthProvider>
