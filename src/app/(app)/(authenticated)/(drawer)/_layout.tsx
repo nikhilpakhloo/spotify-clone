@@ -9,7 +9,7 @@ export default function Layout() {
       <Drawer drawerContent={(props) => <CustomDrawerContent {...props} />} screenOptions={{
         headerShown: false, drawerStyle: {
           width: SCREEN_WIDTH * 0.9,
-          backgroundColor: "#121212"
+          
         }
       }} />
     </GestureHandlerRootView>

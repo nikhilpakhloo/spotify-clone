@@ -10,14 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home: React.FC = () => {
   const { user } = useAuth();
-  const greetingMessage = useCallback((): string => {
-    const currentTime = new Date().getHours();
-    if (currentTime < 12) return "Good Morning";
-    if (currentTime < 16) return "Good Afternoon";
-    return "Good Evening";
-  }, []);
 
-  const message = greetingMessage();
   return (
     <LinearGradient colors={["#040306", "#131624"]} className="flex-1 ">
       <SafeAreaView>

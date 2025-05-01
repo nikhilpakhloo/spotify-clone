@@ -38,7 +38,7 @@ export default function UserCell({ user, onPress,  isDrawer = false }: UserCellP
       {isDrawer && (
         <View>
           <Text className="font-medium text-2xl text-white">
-            Hi,  {user?.displayName || user?.phoneNumber}
+            Hi,  {user?.displayName || user?.phoneNumber || "Guest"}
           </Text>
           <Text className="text-sm font-medium text-secondaryText">
             View Profile

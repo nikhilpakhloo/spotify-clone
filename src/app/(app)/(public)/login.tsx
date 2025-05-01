@@ -5,23 +5,36 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link } from 'expo-router';
 import BackButton from '@/src/components/BackButton';
-import { configureGoogleSignin, GoogleAuth } from '@/src/lib/googleAuth';
-import { spotifyAuth } from '@/src/lib/spotifyAuth';
-
-
+import { useSpotifyAuth } from '@/src/hooks/useSpotifyAuth';
+import { useGoogleAuth } from '@/src/hooks/useGoogleAuth';
 export default function Login() {
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [spotifyLoading, setSpotifyLoading] = useState(false);
-  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+  
+  const {googleAuth} = useGoogleAuth();
+  const { request, promptAsync } = useSpotifyAuth();
+  const handleSpotifyAuth = async () => {
+    if (request) {
+      try {
+        const result = await promptAsync();
+     
+        if (result.type === 'success') {
+          console.log('Spotify auth succeeded');
+        } else {
+          console.log('Spotify auth cancelled or failed');
+        }
+      } catch (error) {
+        console.error('Error during Spotify authentication:', error);
+      }
+    } else {
+      console.log('Auth request is not ready.');
+    }
+  };
 
-  useEffect(() => {
-    configureGoogleSignin();
-  }, []);
 
   const handleGoogleAuth = async () => {
     setGoogleLoading(true);
     try {
-      await GoogleAuth();
+      await googleAuth();
     } catch (error) {
       console.error('Google Authentication Error:', error);
     } finally {
@@ -29,22 +42,22 @@ export default function Login() {
     }
   };
 
-  const handleSpotifyAuth = async () => {
-    setSpotifyLoading(true);
-    try {
-      const accessToken = await spotifyAuth();
 
-      if (accessToken) {
-        console.log('Successfully authenticated! Token:', accessToken);
-      } else {
-        console.log('Authentication failed or was canceled.');
-      }
-    } catch (error) {
-      console.error('Error during Spotify authentication:', error);
-    } finally {
-      setSpotifyLoading(false);
-    }
-  };
+  //   setSpotifyLoading(true);
+  //   try {
+  //     const accessToken = await spotifyAuth();
+
+  //     if (accessToken) {
+  //       console.log('Successfully authenticated! Token:', accessToken);
+  //     } else {
+  //       console.log('Authentication failed or was canceled.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during Spotify authentication:', error);
+  //   } finally {
+  //     setSpotifyLoading(false);
+  //   }
+  // };
 
   return (
     <>
@@ -70,8 +83,7 @@ export default function Login() {
             text="Sign in with Spotify"
             textStyle="text-black font-semibold text-lg text-center"
             icon={<FontAwesome name="spotify" size={25} color="black" />}
-            loading={spotifyLoading}
-            onPress={() => setShowSpotifyModal(true)}
+            onPress={handleSpotifyAuth}
           />
 
           <Link href="/phone" asChild>
@@ -102,40 +114,7 @@ export default function Login() {
         </View>
       </View>
 
-      <Modal
-        transparent
-        visible={showSpotifyModal}
-        animationType="slide"
-        onRequestClose={() => setShowSpotifyModal(false)}
-      >
-        <View className="flex-1 justify-center items-center bg-black/60">
-          <View className="bg-white p-6 rounded-2xl w-80 items-center">
-            <Image
-              source={require('@/src/assets/images/spotify2.png')}
-              className="w-16 h-16 mb-4"
-            />
-            <Text className="text-lg font-semibold mb-4 text-center">
-              Connect your Spotify Account
-            </Text>
 
-            <Button
-              className="bg-primaryButton p-3 rounded-full w-full mb-3"
-              text="Continue with Spotify"
-              textStyle="text-black font-semibold text-center"
-              loading={spotifyLoading}
-              icon={<FontAwesome name="spotify" size={20} color="black" />}
-              onPress={async () => {
-                setShowSpotifyModal(false);
-                await handleSpotifyAuth();
-              }}
-            />
-
-            <TouchableOpacity onPress={() => setShowSpotifyModal(false)}>
-              <Text className="text-gray-600">Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </>
   );
 }

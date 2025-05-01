@@ -12,6 +12,8 @@ export default {
     newArchEnabled: true,
     extra: {
       googleWebClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+      spotifyClientId:process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_ID,
+      spotifyClientSecret:process.env.EXPO_PUBLIC_SPOTIFY_CLIENT_SECRET
     },
     ios: {
       supportsTablet: true,
