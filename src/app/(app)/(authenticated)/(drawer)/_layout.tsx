@@ -11,7 +11,13 @@ export default function Layout() {
           width: SCREEN_WIDTH * 0.9,
           
         }
-      }} />
+        
+      }} initialRouteName='(tabs)' >
+        <Drawer.Screen name='(tabs)'/>
+
+
+
+      </Drawer>
     </GestureHandlerRootView>
   );
 }

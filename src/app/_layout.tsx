@@ -16,8 +16,9 @@ import "../../global.css";
 import { AuthProvider } from '../context/AuthContext';
 import { getApp } from "@react-native-firebase/app";
 import { getAuth } from "@react-native-firebase/auth";
-import { PlayerContext } from '../context/PlayerContext';
-import { View } from 'react-native';
+import * as RNLocalize from 'react-native-localize';
+import i18n from '../i18n';
+
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -36,6 +37,8 @@ const InitialLayout = () => {
 
 
   useEffect(() => {
+    const locale = RNLocalize.getLocales()[0]?.languageCode || 'en';
+    i18n.changeLanguage(locale);
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
@@ -54,10 +57,8 @@ const RootLayout = () => {
 
     <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthProvider>
-          <PlayerContext>
           <StatusBar style="light" />
           <InitialLayout />
-          </PlayerContext>
         </AuthProvider>
     </GestureHandlerRootView>
 
